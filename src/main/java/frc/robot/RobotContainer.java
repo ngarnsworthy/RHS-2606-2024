@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.drivetrain.OperatorDrive;
+import frc.robot.constents.ControlConstents;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -18,10 +20,10 @@ import frc.robot.subsystems.Drivetrain;
  */
 public class RobotContainer {
   //Input Devices
-  private XboxController driveController = new XboxController(0);
+  private XboxController driveController = new XboxController(ControlConstents.movementController);
 
   //Drivetrain
-  Drivetrain
+  Drivetrain sDrivetrain = new Drivetrain();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -39,7 +41,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
+    sDrivetrain.setDefaultCommand(new OperatorDrive(sDrivetrain, driveController));
   }
 
   /**

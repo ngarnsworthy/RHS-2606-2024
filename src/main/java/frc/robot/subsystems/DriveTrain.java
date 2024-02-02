@@ -20,27 +20,16 @@ public class Drivetrain extends SubsystemBase{
     //Define drive control
     public final MecanumDrive mecanumDrive = new MecanumDrive(frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor);
 
-
-    public class DriveInstruction{
-        public double x;
-        public double y;
-        public double turn; 
-
-        public DriveInstruction(double x, double y, double turn){
-            this.x = x;
-            this.y = y;
-            this.turn = turn;
-        }
-
-        public DriveInstruction(XboxController controller){
-            x = inputSanitation.SquareInput(controller.getRightX());
-            y = inputSanitation.SquareInput(controller.getRightY());
-
-            turn = inputSanitation.SquareInput(controller.getLeftX());
-        }
+    public void Drive(double x, double y, double turn){
+        mecanumDrive.driveCartesian(x, y, turn);
     }
 
-    public void Drive(DriveInstruction instruction){
-        mecanumDrive.driveCartesian(instruction.x, instruction.y, instruction.turn);
-    }
+    public void Drive(XboxController controller){
+            double x = inputSanitation.SquareInput(controller.getRightX());
+            double y = inputSanitation.SquareInput(controller.getRightY());
+
+            double turn = inputSanitation.SquareInput(controller.getLeftX());
+
+            Drive(x,y,turn);
+        }
 }

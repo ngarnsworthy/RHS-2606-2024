@@ -8,7 +8,7 @@ public class OperatorDrive extends Command {
     private XboxController xboxController;
     private Drivetrain drive;
 
-    public OperatorDrive(Drivetrain drive, XboxController xboxController, boolean fieldRelative) {
+    public OperatorDrive(Drivetrain drive, XboxController xboxController) {
     this.xboxController = xboxController;
     this.drive = drive;
 
@@ -20,6 +20,6 @@ public class OperatorDrive extends Command {
 
   @Override
   public void execute(){
-    drive.Drive(new drive.DriveInstruction(xboxController));
+    drive.Drive(xboxController);
   }
 }
