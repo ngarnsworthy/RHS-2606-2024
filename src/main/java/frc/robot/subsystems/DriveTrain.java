@@ -26,10 +26,22 @@ public class Drivetrain extends SubsystemBase{
     //Define drive control
     public final MecanumDrive mecanumDrive = new MecanumDrive(frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor);
 
+    /**
+     * 
+     * @param x The speed moved in the x direction.
+     * @param y The speed moved in the y direction.
+     * @param turn The speed of turning.
+     * @param fieldRelative Weather to move relitave to field.
+     */
     public void Drive(double x, double y, double turn, boolean fieldRelative){
         mecanumDrive.driveCartesian(x, y, turn, fieldRelative ? new Rotation2d((navx.getYaw())) : null);
     }
 
+    /**
+     * 
+     * Move from controller input
+     * @param controller
+     */
     public void Drive(XboxController controller){
             double x = inputSanitation.SquareInput(controller.getRightX());
             double y = inputSanitation.SquareInput(controller.getRightY());
