@@ -2,15 +2,21 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constents.ControlConstents;
 import frc.robot.constents.MotorConstents;
 import input.inputSanitation;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 
 public class Drivetrain extends SubsystemBase{
+    //Gyroscope
+    private AHRS navx = new AHRS();
+
     //Define motors
     public final CANSparkMax frontLeftMotor = new CANSparkMax(MotorConstents.frontLeftDrive, MotorConstents.driveMotorType);
     public final CANSparkMax frontRightMotor = new CANSparkMax(MotorConstents.frontRightDrive, MotorConstents.driveMotorType);
@@ -20,8 +26,8 @@ public class Drivetrain extends SubsystemBase{
     //Define drive control
     public final MecanumDrive mecanumDrive = new MecanumDrive(frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor);
 
-    public void Drive(double x, double y, double turn){
-        mecanumDrive.driveCartesian(x, y, turn);
+    public void Drive(double x, double y, double turn, boolean fieldRelative){
+        mecanumDrive.driveCartesian(x, y, turn, fieldRelative ? new Rotation2d((navx.getYaw())) : null);
     }
 
     public void Drive(XboxController controller){
@@ -30,6 +36,6 @@ public class Drivetrain extends SubsystemBase{
 
             double turn = inputSanitation.SquareInput(controller.getLeftX());
 
-            Drive(x,y,turn);
+            Drive(x, y, turn, ControlConstents.fieldRelative);
         }
 }
