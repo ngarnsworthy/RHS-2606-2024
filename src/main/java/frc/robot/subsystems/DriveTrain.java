@@ -46,7 +46,11 @@ public class Drivetrain extends SubsystemBase {
      * @param fieldRelative Weather to move relitave to field.
      */
     public void Drive(double x, double y, double turn, boolean fieldRelative){
-      mecanumDrive.driveCartesian(x, y, turn);
+      if(fieldRelative){
+        mecanumDrive.driveCartesian(x, y, turn, new Rotation2d(0, navx.getYaw()));
+      }else{
+        mecanumDrive.driveCartesian(x, y, turn);
+      }
     }
 
     /**
@@ -55,11 +59,11 @@ public class Drivetrain extends SubsystemBase {
      * @param controller
      */
     public void Drive(XboxController controller){
-            double x = inputSanitation.SquareInput(controller.getRightY());
-            double y = inputSanitation.SquareInput(controller.getRightX());
+      double x = inputSanitation.SquareInput(controller.getRightY());
+      double y = inputSanitation.SquareInput(controller.getRightX());
 
-            double turn = inputSanitation.SquareInput(controller.getLeftX());
+      double turn = inputSanitation.SquareInput(controller.getLeftX());
 
-            Drive(x, y, turn, ControlConstents.fieldRelative);
-        }
+      Drive(x, y, turn, ControlConstents.fieldRelative);
+  }
 }
